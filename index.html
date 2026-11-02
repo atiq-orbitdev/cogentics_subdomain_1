@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prince of Persia — A History of the Cinematic Platformer</title>
+  <meta name="description" content="The story of Prince of Persia: Jordan Mechner's 1989 Apple II classic, the Sands of Time reboot, and the franchise's later revival.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=El+Messiri:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night: #0b1018;
+      --ink: #141a24;
+      --panel: #171f2c;
+      --sand: #d4b46a;
+      --sand-bright: #f0d48a;
+      --terracotta: #c45c38;
+      --tile: #2a7a72;
+      --parchment: #efe4c8;
+      --muted: #b7c0cc;
+      --line: rgba(212, 180, 106, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--parchment);
+      font-family: "Source Serif 4", Georgia, serif;
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(196, 92, 56, 0.18), transparent 55%),
+        radial-gradient(900px 500px at -10% 20%, rgba(42, 122, 114, 0.16), transparent 50%),
+        var(--night);
+      line-height: 1.7;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image:
+        linear-gradient(30deg, #d4b46a 12%, transparent 12.5%, transparent 87%, #d4b46a 87.5%, #d4b46a),
+        linear-gradient(150deg, #d4b46a 12%, transparent 12.5%, transparent 87%, #d4b46a 87.5%, #d4b46a),
+        linear-gradient(30deg, #d4b46a 12%, transparent 12.5%, transparent 87%, #d4b46a 87.5%, #d4b46a),
+        linear-gradient(150deg, #d4b46a 12%, transparent 12.5%, transparent 87%, #d4b46a 87.5%, #d4b46a),
+        linear-gradient(60deg, #2a7a72 25%, transparent 25.5%, transparent 75%, #2a7a72 75%, #2a7a72),
+        linear-gradient(60deg, #2a7a72 25%, transparent 25.5%, transparent 75%, #2a7a72 75%, #2a7a72);
+      background-size: 40px 70px;
+      background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.4rem 4rem;
+    }
+
+    header.hero {
+      padding: 4.5rem 0 2.5rem;
+      text-align: center;
+    }
+
+    .kicker {
+      font-family: "El Messiri", sans-serif;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--sand);
+      font-size: 0.78rem;
+      margin: 0 0 1rem;
+    }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.6rem, 7vw, 5.4rem);
+      line-height: 0.95;
+      margin: 0 0 1rem;
+      font-weight: 700;
+    }
+
+    h1 span {
+      display: block;
+      font-style: italic;
+      font-weight: 500;
+      color: var(--sand-bright);
+      font-size: 0.42em;
+      letter-spacing: 0.08em;
+      margin-top: 0.55rem;
+    }
+
+    .lede {
+      max-width: 42rem;
+      margin: 0 auto 2rem;
+      font-size: 1.15rem;
+      color: var(--muted);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.55rem 0.9rem;
+      padding: 0.9rem 0 1.6rem;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav a {
+      color: var(--sand);
+      text-decoration: none;
+      font-family: "El Messiri", sans-serif;
+      font-size: 0.92rem;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--sand-bright);
+      text-decoration: underline;
+      text-underline-offset: 0.22em;
+    }
+
+    section {
+      margin: 3.2rem 0;
+      background: linear-gradient(180deg, rgba(23, 31, 44, 0.92), rgba(11, 16, 24, 0.88));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.7rem 1.6rem 1.9rem;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+    }
+
+    h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin: 0 0 0.35rem;
+      color: var(--sand-bright);
+    }
+
+    .ornament {
+      width: 72px;
+      height: 8px;
+      margin: 0 0 1.1rem;
+      background:
+        linear-gradient(90deg, transparent, var(--terracotta) 12%, var(--sand) 50%, var(--tile) 88%, transparent);
+      clip-path: polygon(0 50%, 12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%);
+    }
+
+    p { margin: 0 0 1rem; }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 760px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+      .grid.three { grid-template-columns: 1fr 1fr 1fr; }
+      section { padding: 2.2rem 2.2rem 2.4rem; }
+    }
+
+    .card {
+      background: rgba(20, 26, 36, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1.05rem 0.85rem;
+    }
+
+    .card h3 {
+      font-family: "El Messiri", sans-serif;
+      margin: 0 0 0.4rem;
+      color: var(--sand);
+      font-size: 1.12rem;
+    }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    .year {
+      display: inline-block;
+      font-family: "El Messiri", sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--night);
+      background: var(--sand);
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline {
+      position: relative;
+      margin: 0.4rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0.28rem;
+      top: 0.3rem;
+      bottom: 0.3rem;
+      width: 2px;
+      background: linear-gradient(var(--sand), var(--terracotta), var(--tile));
+    }
+
+    .timeline article {
+      position: relative;
+      margin: 0 0 1.15rem;
+      padding-left: 0.85rem;
+    }
+
+    .timeline article::before {
+      content: "";
+      position: absolute;
+      left: -1.08rem;
+      top: 0.55rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--sand-bright);
+      box-shadow: 0 0 0 3px rgba(212, 180, 106, 0.18);
+    }
+
+    .timeline h3 {
+      margin: 0;
+      font-family: "El Messiri", sans-serif;
+      font-size: 1.08rem;
+      color: var(--sand);
+    }
+
+    .timeline time {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0.1rem 0 0.25rem;
+    }
+
+    blockquote {
+      margin: 1.2rem 0 0;
+      padding: 0.9rem 1rem;
+      border-left: 3px solid var(--terracotta);
+      background: rgba(196, 92, 56, 0.08);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.25rem;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding: 0.5rem 0 2rem;
+    }
+
+    footer a { color: var(--sand); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="kicker">1989 — present</p>
+      <h1>Prince of Persia<span>The game, the myth, the long run</span></h1>
+      <p class="lede">A nameless youth, a ticking hour, and animation so fluid it looked filmed. Jordan Mechner’s Apple II dungeon crawl became one of the most ported games ever made, then a Ubisoft action franchise that keeps finding new shapes.</p>
+    </header>
+
+    <nav aria-label="Page sections">
+      <a href="#the-game">The game</a>
+      <a href="#origins">Origins</a>
+      <a href="#classic-era">Classic era</a>
+      <a href="#sands">Sands of Time</a>
+      <a href="#reboots">Reboots</a>
+      <a href="#revival">Revival</a>
+      <a href="#legacy">Legacy</a>
+      <a href="#timeline">Timeline</a>
+    </nav>
+
+    <section id="the-game">
+      <h2>The game</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>The original <em>Prince of Persia</em> is a cinematic platformer: you guide an unnamed prisoner through twelve palace levels, dodge traps, fence with guards, and reach the princess before sixty minutes expire. There are no extra lives. Death sends you back to the start of the current level, but the clock does not rewind. That pressure is the design.</p>
+      <div class="grid two">
+        <article class="card">
+          <h3>How it plays</h3>
+          <p>Movement is deliberate rather than twitchy. Running, hanging from ledges, careful jumps, and swordplay all take time to learn. Health is a row of red triangles. Potions restore it, poison it, extend it, or briefly let the prince hover. Spikes, guillotines, and three-story falls kill instantly.</p>
+        </article>
+        <article class="card">
+          <h3>What it feels like</h3>
+          <p>The prince is a body in a hostile machine. Gates open only while a pressure plate is held. A shadow double steals potions and later shares your life. Jaffar waits at the end. When he dies, the timer stops and the remaining minutes become the score.</p>
+        </article>
+      </div>
+      <p>Later entries kept the acrobatics and added parkour, time rewind, open worlds, Metroidvania maps, and roguelike runs. The through-line is still a human-scale hero moving through Persian-inspired architecture against a clock, a curse, or a collapsing timeline.</p>
+    </section>
+
+    <section id="origins">
+      <h2>Origins</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>Jordan Mechner designed and programmed the first game after <em>Karateka</em>. He drew from <em>One Thousand and One Nights</em>, swashbuckler cinema such as <em>The Adventures of Robin Hood</em>, and adventure films like <em>Raiders of the Lost Ark</em>. Broderbund published the Apple II original in 1989.</p>
+      <p>The animation was rotoscoped. Mechner filmed his brother David performing runs, jumps, and falls in white clothes, then traced the motion frame by frame. The result looked unlike most 8-bit sprites: weight, hesitation, and a sword fight that read as fencing rather than button-mashing. That technique is why the game is still cited as the start of the cinematic platformer, a line that later includes <em>Another World</em>.</p>
+      <blockquote>The prince was never a superhero. He was a young man who could miss a jump and die — and the hourglass did not care.</blockquote>
+    </section>
+
+    <section id="classic-era">
+      <h2>The classic era</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>The Apple II original was not an overnight blockbuster. Ports made it famous. DOS, Macintosh, Amiga, consoles, and handhelds followed until it became one of the most widely ported games in history.</p>
+      <div class="grid three">
+        <article class="card">
+          <span class="year">1989</span>
+          <h3>Prince of Persia</h3>
+          <p>Twelve levels, a sixty-minute limit, and a shadow self that must be merged with before Jaffar can fall. SNES and some later versions stretch the map and the clock.</p>
+        </article>
+        <article class="card">
+          <span class="year">1993</span>
+          <h3>The Shadow and the Flame</h3>
+          <p>Broderbund built the sequel with Mechner directing after film school. Larger, more story-heavy, and still acclaimed. The prince is framed for murder and hunted across a wider Persia.</p>
+        </article>
+        <article class="card">
+          <span class="year">1999</span>
+          <h3>Prince of Persia 3D</h3>
+          <p>Red Orb’s jump to three dimensions, PC and later Dreamcast. Buggy, poorly received, and a commercial disappointment. Corporate takeovers then moved the brand toward Ubisoft.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sands">
+      <h2>The Sands of Time</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>Mechner still owned the intellectual property. Ubisoft Montreal, fresh from <em>Splinter Cell</em>, brought him in for a 2003 reboot. <em>Prince of Persia: The Sands of Time</em> kept cinematic movement and added the Dagger of Time: rewind a fatal fall, slow combat, and parkour through a living palace. Farah, a sharp-tongued ally, replaced the silent princess-in-the-tower formula.</p>
+      <div class="grid two">
+        <article class="card">
+          <h3>Warrior Within (2004)</h3>
+          <p>Darker, louder, and more violent. Mechner sat this one out and later said the tone did not appeal to him. Critics split; sales did not. The Prince fights the Dahaka, a pursuer that cannot be rewound away.</p>
+        </article>
+        <article class="card">
+          <h3>The Two Thrones (2005)</h3>
+          <p>A middle path between the fairy-tale first game and the grim sequel. The Dark Prince split the hero in two. A DS spin-off, <em>Battles of Prince of Persia</em>, tried turn-based strategy between the first two stories and landed with mixed reviews.</p>
+        </article>
+      </div>
+      <p><em>The Forgotten Sands</em> (2010) filled the gap between the first two console games on home platforms, while handheld versions told their own stories. It arrived as a tie-in to the live-action film starring Jake Gyllenhaal — a Hollywood Sands of Time that borrowed the dagger and little of the game’s restraint.</p>
+    </section>
+
+    <section id="reboots">
+      <h2>Reboots, remakes, and a long pause</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>In 2008 Ubisoft released another <em>Prince of Persia</em>, unrelated to the Sands continuity. The Prince and Elika cooperated through an open, painterly world. Death was often a rewind by a companion rather than a fail state. A planned sequel, <em>The Fallen King</em> on DS aside, did not become a lasting series.</p>
+      <p>Gameloft rebuilt the 1989 game as <em>Prince of Persia Classic</em> (2007), dressed in Sands-era art but still racing a one-hour clock. A remake of <em>The Shadow and the Flame</em> followed in 2013. Mobile runners such as <em>Escape</em> (2018) kept the name in app stores without advancing the craft. For more than a decade the franchise felt archived.</p>
+    </section>
+
+    <section id="revival">
+      <h2>Revival</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>January 2024 brought the first major new installment since <em>The Forgotten Sands</em>: <em>Prince of Persia: The Lost Crown</em>. It is a 2.5D side-scroller with Metroidvania structure. The hero is Sargon of the Immortals, not the classic prince, and the time tricks return as traversal tools rather than a simple rewind button.</p>
+      <p>In 2025, Evil Empire’s <em>The Rogue Prince of Persia</em> took the acrobatics into a roguelike, with Franco-Belgian comic art and a day-one Steam release — unusual for modern Ubisoft. The brand that began as one programmer and a camcorder is now several parallel interpretations sharing a silhouette: a runner on a ledge, a blade, and time that can be argued with.</p>
+    </section>
+
+    <section id="legacy">
+      <h2>Legacy</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <p>The 1989 game taught an industry that animation could carry emotion on a home computer. The 2003 reboot taught another generation that failure could be undone without becoming cheap, if rewind was a resource and a story device. Parkour in later action games still owes a debt to that palace.</p>
+      <p>Mechner published journals and a graphic-novel adaptation of the original, making the production itself part of the folklore: a young designer, a brother in a white shirt, and frames copied by hand. Ports, HD collections, Classic remakes, a Hollywood film, and two 2020s reinventions have kept the hourglass in public memory even when no new “main” game existed.</p>
+    </section>
+
+    <section id="timeline">
+      <h2>Timeline</h2>
+      <div class="ornament" aria-hidden="true"></div>
+      <div class="timeline">
+        <article>
+          <h3>Prince of Persia</h3>
+          <time datetime="1989">1989 — Apple II, then a flood of ports</time>
+          <p>Mechner’s cinematic platformer. Save the princess from Jaffar in sixty minutes.</p>
+        </article>
+        <article>
+          <h3>The Shadow and the Flame</h3>
+          <time datetime="1993">1993</time>
+          <p>Broderbund sequel under Mechner’s direction. Broader story, same lethal precision.</p>
+        </article>
+        <article>
+          <h3>Prince of Persia 3D</h3>
+          <time datetime="1999">1999</time>
+          <p>Awkward 3D transition. The rights soon pass, via corporate sales, toward Ubisoft.</p>
+        </article>
+        <article>
+          <h3>The Sands of Time trilogy</h3>
+          <time datetime="2003">2003–2005</time>
+          <p>Time rewind, parkour, then a darker middle chapter and a split-hero finale.</p>
+        </article>
+        <article>
+          <h3>Classic remake and 2008 reboot</h3>
+          <time datetime="2007">2007–2008</time>
+          <p>Gameloft restages 1989. Ubisoft tries a new continuity with Elika.</p>
+        </article>
+        <article>
+          <h3>Film and The Forgotten Sands</h3>
+          <time datetime="2010">2010</time>
+          <p>Jake Gyllenhaal on screen; a console gap-filler and several handheld variants.</p>
+        </article>
+        <article>
+          <h3>The Lost Crown</h3>
+          <time datetime="2024">2024</time>
+          <p>Sargon, Mount Qaf, and a critically strong Metroidvania return.</p>
+        </article>
+        <article>
+          <h3>The Rogue Prince of Persia</h3>
+          <time datetime="2025">2025</time>
+          <p>Evil Empire’s roguelike: same vaults and traps, a new loop.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <p>Written as an original overview of publicly documented franchise history. For production detail, see Jordan Mechner’s published journals and the individual game credits.</p>
+      <p><a href="#the-game">Back to the game</a></p>
+    </footer>
+  </div>
+</body>
+</html>
